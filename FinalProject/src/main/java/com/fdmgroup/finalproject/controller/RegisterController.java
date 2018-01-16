@@ -32,6 +32,10 @@ public class RegisterController {
 	 */
 	@RequestMapping(value = "/register")
 	public String goToRegister(HttpServletRequest request, Model model) {
+		//ApplicationContext ac = (ApplicationContext) request.getSession()
+		//		.getServletContext().getAttribute("context");
+		//User user = (User) ac.getBean("user");
+		//model.addAttribute("user", user);
 		return "register";
 	}
 
@@ -66,7 +70,7 @@ public class RegisterController {
 		User existingUser = null;
 
 		try {
-			existingUser = dao.getUser(username);
+			existingUser = dao.getUserByUsername(username);
 
 			if (existingUser != null) {
 				model.addAttribute("usernameexists", true);

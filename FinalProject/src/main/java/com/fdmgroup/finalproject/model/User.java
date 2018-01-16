@@ -1,14 +1,20 @@
 package com.fdmgroup.finalproject.model;
 
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name="userfinal")
+@Table(name="user_finalp")
 public class User {
 
 	@Id
-	@Column(name="username")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="userID")
+	private int userID;
+	@Column(name="username", unique=true)
 	private String username;
 	@Column(name="password")
 	private String password;
@@ -18,11 +24,17 @@ public class User {
 	private String lastName;
 	@Column(name="email", unique=true)
 	private String email;
-
+	
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(
+			name="ASSIGNED_COUPONS",
+			joinColumns=@JoinColumn(name="userID", referencedColumnName="userID"),
+			inverseJoinColumns=@JoinColumn(name="couponID", referencedColumnName="couponID"))
+	private List<Coupon> coupons;
+	
 	/**
 	 * Creates a IUser with no parameters
 	 */
-
 	public User() {
 		super();
 	}
@@ -40,16 +52,22 @@ public class User {
 	 *            the last name of the IUser
 	 * @param email
 	 *            the email of the IUser
+	 * @param userID 
 	 */
 	public User(String username, String password, String firstName, String lastName, String email) {
 	
 		this.username = username;
-		this.password = password;
+		this.password = password; 
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.coupons = new LinkedList<Coupon>();
 	}
 	
+	public int getUserID() {
+		return userID;
+	}
+
 	/**
 	 * Returns the user's username
 	 * 
@@ -167,5 +185,13 @@ public class User {
 			throw new IllegalArgumentException("Email cannot be null");
 		}
 		this.email = email;
+	}
+
+	public List<Coupon> getCoupons() {
+		return coupons;
+	}
+
+	public void setCoupons(List<Coupon> coupons) {
+		this.coupons = coupons;
 	}
 }

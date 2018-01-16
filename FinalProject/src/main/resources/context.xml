@@ -13,13 +13,18 @@
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 	<context:component-scan base-package="com.fdmgroup.finalproject" />
 	
-	<bean id="UserDAO" class="com.fdmgroup.finalproject.dao.UserDAO">
-		<constructor-arg ref="EMF" name="emf"/>
-	</bean>
+	
 	<bean id="EMF" class="javax.persistence.Persistence"
 		factory-method="createEntityManagerFactory">
 		<constructor-arg value="finalProject" type="java.lang.String" />
 	</bean>
 	<bean id="newUser" class="com.fdmgroup.finalproject.model.User" scope="prototype"/>
+	<bean id="UserDAO" class="com.fdmgroup.finalproject.dao.UserDAO">
+		<constructor-arg ref="EMF" name="emf"/>
+	</bean>
+	<bean id="newCoupon" class="com.fdmgroup.finalproject.model.Coupon" scope="prototype"/>
+	<bean id="CouponDAO" class="com.fdmgroup.finalproject.dao.CouponDAO">
+		<constructor-arg ref="EMF" name="emf"/>
+	</bean>
 		
 </beans>

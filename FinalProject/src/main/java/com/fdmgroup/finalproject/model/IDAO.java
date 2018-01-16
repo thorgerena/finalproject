@@ -28,7 +28,7 @@ public interface IDAO {
 	 *            the username of the IUser
 	 * @return
 	 */
-	public User getUser(String username) throws JPAException;
+	public User getUser(int userID) throws JPAException;
 
 	/**
 	 * Finds and removes the user from the database
@@ -37,7 +37,7 @@ public interface IDAO {
 	 *            the username of the IUser
 	 * @throws JPAException 
 	 */
-	public void removeUser(String username) throws JPAException;
+	public void removeUser(int userID) throws JPAException;
 
 	/**
 	 * Finds and updates the user in the database

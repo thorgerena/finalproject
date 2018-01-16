@@ -1,4 +1,3 @@
-
 package com.fdmgroup.finalproject.dao;
 
 import java.util.List;
@@ -32,11 +31,6 @@ public class UserDAO implements IDAO {
 
 		this.emf = emf;
 	}
-	
-	public UserDAO() {
-
-		this.emf = Persistence.createEntityManagerFactory("finalproject");
-	}
 
 	public void addUser(User user) throws JPAException {
 
@@ -57,7 +51,7 @@ public class UserDAO implements IDAO {
 
 		EntityManager em = emf.createEntityManager();
 
-		if (this.getUser(user.getUsername()) == null) {
+		if (this.getUser(user.getUserID()) == null) {
 			em.getTransaction().begin();
 			em.persist(user);
 			em.getTransaction().commit();
@@ -67,24 +61,19 @@ public class UserDAO implements IDAO {
 		}
 	}
 
-	public User getUser(String username) throws JPAException {
-
-		if (username == null) {
-			throw new JPAException(JPAException.inputErrorNull());
-		}
+	public User getUser(int userID) throws JPAException {
 
 		EntityManager em = emf.createEntityManager();
-		User user = em.find(User.class, username);
-
+		User user = em.find(User.class, userID);
 		em.close();
 
 		return user;
 	}
 
-	public void removeUser(String username) throws JPAException {
+	public void removeUser(int userID) throws JPAException {
 
 		EntityManager em = emf.createEntityManager();
-		User user = em.find(User.class, username);
+		User user = em.find(User.class, userID);
 
 		if (user == null) {
 			throw new JPAException("Username doesn't exists in database");
@@ -117,7 +106,7 @@ public class UserDAO implements IDAO {
 		}
 
 		EntityManager em = emf.createEntityManager();
-		User existingUser = em.find(User.class, username);
+		User existingUser = em.find(User.class, user.getUserID());
 
 		if (existingUser == null) {
 			throw new JPAException("Username doesn't exists in the database");
@@ -174,6 +163,27 @@ public class UserDAO implements IDAO {
 
 		return user;
 	}
-	
-	
+
+	public User getUserByUsername(String username) throws JPAException {
+
+		if (username == null) {
+			throw new JPAException(JPAException.inputErrorNull());
+		}
+
+		EntityManager em = emf.createEntityManager();
+		Query query = em.createQuery(
+				"SELECT e from User e WHERE e.username=:username", User.class);
+		query.setParameter("username", username);
+		List<User> users = query.getResultList();
+
+		User user = null;
+
+		if (users.size() > 0) {
+			user = users.get(0);
+		}
+
+		em.close();
+
+		return user;
+	}
 }

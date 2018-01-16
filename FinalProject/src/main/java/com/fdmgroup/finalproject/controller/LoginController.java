@@ -51,7 +51,7 @@ public class LoginController {
 		User user = null;
 
 		try {
-			user = dao.getUser(username);
+			user = dao.getUserByUsername(username);
 
 		} catch (JPAException e) {
 			e.printStackTrace();

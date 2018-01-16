@@ -10,6 +10,13 @@
 <c:choose>
 <c:when test="${  not empty sessionScope.loggeduser }">
 	<div>Welcome back, ${sessionScope.loggeduser.username }</div>
+	
+	<form action="getCoupons" method="post">
+		<label>Username: </label>
+		<input type="text" name="username"/>
+		<button type="submit">Get my coupons</button>
+	</form>
+	
 	<div><a href="logout">Logout</a></div>
 </c:when>
 <c:otherwise>
